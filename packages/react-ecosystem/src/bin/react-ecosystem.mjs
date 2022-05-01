@@ -1,41 +1,53 @@
 #!/usr/bin/env zx
 import { $ } from "zx";
 import { createServer } from "vite";
+import { Command } from "commander";
 
-const prompts = require("prompts");
-prompts.override(require("yargs").argv);
-const signale = require("signale");
-
-// const response = await prompts([
-//   {
-//     type: 'select',
-//     name: 'command',
-//     message: 'Choose a command',
-//     choices: [
-//       { title: 'serve', value: 'serve' },
-//       { title: 'generate feature', value: 'generate-feature' },
-//       { title: 'generate project', value: 'generate-project' },
-//     ],
-//   }
-// ]);
-//
-// signale.success("TODO: execute command ", response.command);
-
-// disable zx's default logger
+// remove all the logs produces by zx
 $.verbose = false;
+// make commander.js work with zx
+process.argv.shift();
 
-console.clear();
+/**
+ * Start the developement server using vite.
+ *
+ * @param port
+ * @returns {Promise<void>}
+ */
+const startDev = async ({ port }) => {
+  const pwd = (await $`pwd`).stdout.trim();
 
-const pwd = (await $`pwd`).stdout.trim();
+  const server = await createServer({
+    configFile: require.resolve("react-ecosystem/src/bin/vite.config.ts"),
+    root: pwd,
+    server: {
+      port,
+      host: true,
+    },
+  });
 
-const server = await createServer({
-  configFile: require.resolve("react-ecosystem/src/bin/vite.config.ts"),
-  root: pwd,
-  server: {
-    port: 3000,
-  },
-});
+  await server.listen();
 
-await server.listen();
+  server.printUrls();
+};
 
-server.printUrls();
+const program = new Command();
+
+program
+  .name("react-ecosystem")
+  .description(
+    "react-ecosystem CLI useful for serving a react app, running tests, and building for production"
+  )
+  .version("0.8.0");
+
+program
+  .command("dev")
+  .description(
+    "run the react-ecosystem dev server with Hot Module Replacement (HMR)"
+  )
+  .option("-p, --port <port>", "service port", "3000")
+  .action(async (option) => {
+    await startDev({ port: option.port });
+  });
+
+program.parse();
