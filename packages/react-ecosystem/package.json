@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "prompts": "^2.4.2",
+    "signale": "^1.4.0",
+    "yargs": "^17.4.1",
     "zx": "^6.1.0"
   }
 }

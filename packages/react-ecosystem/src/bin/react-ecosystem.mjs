@@ -1,5 +1,20 @@
 #!/usr/bin/env zx
+const prompts = require('prompts');
+prompts.override(require('yargs').argv);
+const signale = require('signale');
 
-// This is a node binary that is used to run the React ecosystem.
+console.clear()
 
-console.log((await $`ls -al`).stdout);
+const response = await prompts([
+  {
+    type: 'select',
+    name: 'command',
+    message: 'Choose a command',
+    choices: [
+      { title: 'generate feature', value: 'generate-feature' },
+      { title: 'generate project', value: 'generate-project' },
+    ],
+  }
+]);
+
+signale.success("TODO: execute command ", response.command);
