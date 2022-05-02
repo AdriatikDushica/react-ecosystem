@@ -1,5 +1,5 @@
 {
-  "name": "react-ecosystem",
+  "name": "@react-ecosystem/cli",
   "version": "0.0.2",
   "description": "",
   "main": "src/index.ts",
