@@ -4,13 +4,16 @@
   "description": "A simple demo using react-ecosystem",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "react-ecosystem"
+    "dev": "react-ecosystem",
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx"
   },
   "author": "Adriatik Dushica",
   "license": "MIT",
   "dependencies": {
+    "@react-ecosystem/cli": "*",
+    "@react-ecosystem/eslint-config": "*",
+    "eslint": "^8.14.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "@react-ecosystem/cli": "*"
+    "react-dom": "^18.1.0"
   }
 }
